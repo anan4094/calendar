@@ -137,7 +137,7 @@ $.calendar = {
             }else{
                 JQ+="下月";
             }
-            JQ+=BeginTime.getDate()+"日"+"<span>"+$.calendar.SolarTermStr[M]+"<span>";
+            JQ+=BeginTime.getDate()+"日"+"<span>"+$.calendar.SolarTermStr[M]+"</span>";
         }
         return JQ;
     }
@@ -321,7 +321,7 @@ $.calendar = {
 };
 $.fn.extend({
     calendar:function(x){
-        var d_x = {count:2,debug:!1,showHoliday:!0,yearRange:false,monthRange:false,ignoreCanVisit:false};
+        var d_x = {count:2,debug:!1,showHoliday:!0,yearRange:false,monthRange:false,ignoreCanVisit:false,tip:true,float:false};
         x = $.extend(d_x,x);
 		if(x.count>1)x.ignoreCanVisit = true;
         var m=null,n=null,w=null,_w=null,id=null;
@@ -384,14 +384,19 @@ $.fn.extend({
                     offset:"0 4",
                     collision:"none none"
                 });
-                w.html($.calendar.detail(u).text);
-                _w.show().position({
-                    of: n,
-                    my: "left bottom",
-                    at: "left top",
-                    offset:"0 -4",
-                    collision:"none none"
-                });
+				if(x.tip){
+					if(x.float){
+					}else{
+						w.html($.calendar.detail(u).text);
+						_w.show().position({
+							of: n,
+							my: "left bottom",
+							at: "left top",
+							offset:"0 -4",
+							collision:"none none"
+						});
+					}
+				}
             });
             $(window).resize(function(){
                 if(m.is(':visible')){
@@ -402,13 +407,15 @@ $.fn.extend({
                         offset:"0 4",
                         collision:"none none"
                     });
-                    _w.position({
-                        of: n,
-                        my: "left bottom",
-                        at: "left top",
-                        offset:"0 -4",
-                        collision:"none none"
-                    });
+					if(x.tip && !x.float){
+						_w.position({
+							of: n,
+							my: "left bottom",
+							at: "left top",
+							offset:"0 -4",
+							collision:"none none"
+						});
+					}
                 }
             });
             $(document).mousedown(function(e){
@@ -423,7 +430,9 @@ $.fn.extend({
                     return false;
                 }
                 n.blur();
-                _w.hide();
+				if(x.tip && !x.float){
+                	_w.hide();
+				}
                 $(".select").hide();
                 m.find(".year,.month").data("showmenu",false);
                 m.hide();
@@ -471,10 +480,25 @@ $.fn.extend({
         }
         function I(){
             var _this = $(this);
-            w.html(_this.data("text"));
-            if(w.height()!=_w.height()){
-                _w.stop().animate({top:"-="+(w.height()-_w.height())+"px",height:w.height()},500);
-            }
+			if(x.tip){
+				if(x.float){
+					var a = _this.data("text");
+					w.find('.cn').html(a.split("&")[0]);
+					w.find('.imp').html(a.split(";")[2].replace(/^\s*/,'').replace(/\s/gi,'<br/>'));
+					w.show().position({
+                        of: _this,
+                        my: "left top",
+                        at: "left bottom",
+                        offset:"-36 0",
+                        collision:"none none"
+                    });
+				}else{
+					w.html(_this.data("text"));
+					if(w.height()!=_w.height()){
+						_w.stop().animate({top:"-="+(w.height()-_w.height())+"px",height:w.height()},500);
+					}
+				}
+			}
             _this.hasClass("dis") && _w.addClass("dis");
             if(_this.hasClass("dis") || _this.hasClass("cur")){
                 n.data("f",true);
@@ -484,11 +508,17 @@ $.fn.extend({
         }
         function J(){
             var _this = $(this);
-            w.html(n.data("text"));
-            _w.removeClass("dis");
-            if(w.height()!=_w.height() && _w.is(":visible")){
-                _w.stop().animate({top:"-="+(w.height()-_w.height())+"px",height:w.height()},500);
-            }
+			if(x.tip){
+				if(x.float){
+					w.hide();
+				}else{
+					w.html(n.data("text"));
+					_w.removeClass("dis");
+					if(w.height()!=_w.height() && _w.is(":visible")){
+						_w.stop().animate({top:"-="+(w.height()-_w.height())+"px",height:w.height()},500);
+					}
+				}
+			}
             if(_this.hasClass("dis") || _this.hasClass("cur")){
                 n.data("f",false);
                 return false;
@@ -552,9 +582,17 @@ $.fn.extend({
               return f;
         }
         function L(){
-            w = $("#cndate div");
-            w.length || (w = $("<div>").appendTo($("<div id='cndate'>").appendTo($("body"))));
-            _w = $("#cndate");
+			if(x.float){
+				w = $('#cnfloat');
+				w.length || (w = $("<div>").attr('id','cnfloat')
+				.append($('<div>').addClass('cn'))
+				.append($('<div>').addClass('imp'))
+				.appendTo($('body')))
+			}else{
+				w = $("#cndate div");
+				w.length || (w = $("<div>").appendTo($("<div id='cndate'>").appendTo($("body"))));
+				_w = $("#cndate");
+			}
             var a = $("<div>").addClass("nav").addClass("not_close").append(
                 $("<a>").addClass("prev"));
             for(var i=0;i<x.count;i++){
@@ -759,7 +797,7 @@ $.fn.extend({
             }
             if(c && c.localeCompare(e)==0){
                 f.each(function(i,j){
-                    g = $(j).html();
+                    g = $(j).data('date');
                     if(!g)return;
                     if(p > parseInt(g,10)){
                         $(j).addClass("dis");
@@ -769,7 +807,7 @@ $.fn.extend({
             }
             if(d && d.localeCompare(e)==0){
                 f.each(function(i,j){
-                    g = $(j).html();
+                    g = $(j).data('date');
                     if(!g)return;
                     if(q < parseInt(g,10)){
                         $(j).addClass("dis");

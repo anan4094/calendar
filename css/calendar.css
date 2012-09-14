@@ -226,6 +226,27 @@
 #cndate.dis div span{
     color: #CD6600;
 }
+#cnfloat{
+    position:absolute;
+	display:none;
+    border: 2px solid #3B8FE2;
+    border-radius: 4px;
+    background: #FFF;
+    width: 98px;
+    font: 12px/25px "微软雅黑";
+    overflow:hidden;
+	text-align:center;
+	z-index:1100;
+	padding:0 0 -2px 0;
+}
+#cnfloat .imp{
+	color:#FFF;
+	background:#3B8FE2;
+	padding:0 3px;
+}
+#cnfloat .imp span{
+	color:#FE005A;
+}
 ul.select{
     background:#FFF;
     z-index:1000;

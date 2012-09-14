@@ -1,0 +1,265 @@
+.monthbox {
+    background: none repeat scroll 0 0 #fff;
+    z-index: 100;
+    list-style-type: none;
+    overflow: auto;
+    padding: 5px;
+    width: 210px;
+    height:155px;
+    margin:0;
+    border-right:1px solid #67A1E2;
+}
+.monthbox li {
+    cursor: pointer;
+    display: inline;
+    float: left;
+    height: 25px;
+    width:30px;
+}
+.monthbox .daybtn a {
+    border: 1px solid #FFF;
+    color: #222;
+    display: block;
+    float: left;
+    font: 13px/23px "黑体";
+    height: 23px;
+    overflow: hidden;
+    text-decoration: none;
+    text-align: center;
+    width: 28px;
+}
+.monthbox .daybtn a:hover {
+}
+.monthbox .daybtn {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: medium none;
+}
+
+.monthbox .daybtn .dis {
+    color:#DCDCDC;
+    cursor: not-allowed;
+}
+.monthbox .daybtn .cur{
+    background:#FDAB00;
+}
+
+.calendar {
+    background: none repeat scroll 0 0 #FFFFFF;
+    *border: 1px solid #67A1E2;
+    border: 1px solid #67A1E2\9;
+    border-radius: 0 7px 7px 7px;
+    box-shadow: 2px 2px 5px #333333;
+    min-height: 200px;
+    position: absolute;
+    width: 220px;
+    z-index: 10;
+}
+.calendar .nav {
+    background-color: #67A1E2;
+    border-radius: 0 6px 0 0;
+    color: #FFFFFF;
+    font: 13px/25px "宋体";
+    height: 25px;
+    padding: 2px 10px;
+    width: 194px;
+    border: 3px solid #fff;
+    position:relative;
+}
+
+.calendar .nav>span{
+    position:absolute;
+    left:80px;
+    font:12px/25px "微软雅黑";
+    text-shadow: 1px 1px 3px #333333;
+}
+
+.calendar .nav>span span{
+    padding:0 2px;
+}
+.calendar .nav .year{
+    background: none repeat scroll 0 0 #FFFFFF;
+    color: #000000;
+    cursor: pointer;
+    height: 14px;
+    padding: 0 2px;
+    text-shadow: none;
+    width: 30px;
+}
+.calendar .nav .month{
+    width:15px;
+    height:14px;
+    cursor:pointer;
+    padding: 0 2px;
+    text-shadow: none;
+    background: none repeat scroll 0 0 #FFFFFF;
+    color: #000000;
+}
+.calendar .week {
+    margin: 5px 5px 0;
+    width: 210px;
+    height:25px;
+}
+.calendar .week ol {
+    position:relative;
+    border-bottom: 1px solid #5DA9E2;
+    display: inline;
+    float: left;
+    height: 22px;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 210px;
+}
+.calendar .week ol li {
+    background-color: #FFFFFF;
+    color: #000000;
+    display: block;
+    float: left;
+    height: 20px;
+    width: 30px;
+}
+.calendar .week ol li .i0{
+    color:#FF34B3
+}
+.calendar .week ol li .i1{
+    color:#483D8B
+}
+.calendar .week ol li .i2{
+    color:#4A708B
+}
+.calendar .week ol li .i3{
+    color:#4D4D4D
+}
+.calendar .week ol li .i4{
+    color:#383838
+}
+.calendar .week ol li .i5{
+    color:#262626
+}
+.calendar .week ol li .i6{
+    color:#000
+}
+.calendar .week ol li.ui-selected span {
+    background-color: #FFFFFF;
+    border-color: #5DA9E2;
+    border-style: solid;
+    border-width: 1px 1px 0;
+    color: #333333;
+    display: block;
+    font: bold 12px/22px "宋体";
+    padding: 0 7px;
+}
+.calendar .week ol li span {
+    color: #005DAA;
+    cursor: pointer;
+    float: left;
+    font: 12px/22px Arial,Helvetica,sans-serif;
+    height: 22px;
+    list-style-type: none;
+    padding: 0 7px;
+    text-align: center;
+}
+.calendar .content{
+      position:relative;
+      width:220px;
+      overflow: hidden;
+      height:165px;
+      border-radius: 0 0 6px 6px;
+}
+
+.calendar .content ol{
+      position:absolute;
+}
+
+.calendar .prev, .calendar .next {
+    background: url("un_calender.png") no-repeat scroll 0 0 #2D7CE7;
+    color: #FFFFFF;
+    cursor: pointer;
+    height: 23px;
+    width: 23px;
+    text-decoration: none;
+}
+.calendar .prev{
+      background-position:0 0;
+      float:left;
+}
+.calendar .next{
+      background-position:-27px 0;
+      float:right;
+}
+
+#cndate{
+    position:absolute;
+    display:none;
+    background: #67A1E2;
+    border: 3px solid #fff;
+    border: 1px solid #67A1E2\0;
+    box-shadow: 1px 1px 3px #333333;
+    text-shadow: 1px 1px 2px #333333;
+    border-radius: 6px 6px 6px 0;
+    padding: 2px 4px;
+    padding: 2px 2px\0;
+    background: #FFF\0;
+    width: 208px;
+    width: 214px\0;
+    height:25px;
+    font: 12px/25px "微软雅黑";
+    color:#FFF;
+    overflow:hidden;
+}
+#cndate.dis{
+    text-decoration: line-through;
+    color:#000;
+}
+#cndate span{
+    color:#EE1289;
+    padding-left:1px;
+}
+#cndate div{
+    background: #67A1E2\0;
+    padding: 0 5px\0;
+}
+#cndate.dis div{
+    color: #FFF;
+}
+
+#cndate.dis div span{
+    color: #CD6600;
+}
+ul.select{
+    background:#FFF;
+    z-index:1000;
+    border: 1px solid #67A1E2;
+    cursor:pointer;
+    overflow:hidden;
+    position:absolute;
+    padding:0;
+}
+ul.select.top{
+    border-bottom:none;
+    border-radius: 4px 4px 0 0;
+}
+ul.select.bottom{
+    border-top:none;
+    border-radius: 0 0 4px 4px;
+}
+ul.select li{
+    list-style: none outside none;
+    font: 12px/18px "微软雅黑";
+    height:18px;
+    border: 1px solid #fff;
+    border-left:none;
+    border-right:none;
+    padding:0 2px;
+	text-align: center;
+}
+ul.select li.hover{
+    background:#EFF9FB;
+    border-color:#67A1E2;
+}
+ul.select li.last{
+    margin-bottom:1px;
+}
+ul.select li.first{
+    margin-top:2px;
+}

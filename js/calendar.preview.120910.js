@@ -103,6 +103,16 @@ $.calendar = {
         "1011 国际住房日"
         )
     ,SolarTerm:function(DateGL){
+        var SolarTermStr=new Array(
+            "小寒","大寒","立春","雨水","惊蛰","春分",
+            "清明","谷雨","立夏","小满","芒种","夏至",
+            "小暑","大暑","立秋","处暑","白露","秋分",
+            "寒露","霜降","立冬","小雪","大雪","冬至");
+        var DifferenceInMonth=new Array(
+            1272060,1275495,1281180,1289445,1299225,1310355,
+            1321560,1333035,1342770,1350855,1356420,1359045,
+            1358580,1355055,1348695,1340040,1329630,1318455,
+            1306935,1297380,1286865,1277730,1274550,1271556);
         var DifferenceInYear=31556926;
         var BeginTime=new Date(1901/1/1);
         BeginTime.setTime(947120460000);
@@ -113,23 +123,23 @@ $.calendar = {
             BeginTime.setTime(BeginTime.getTime()+DifferenceInYear*1000);
         }
         for(var M=0;DateGL.getMonth()>BeginTime.getMonth();M++){
-            BeginTime.setTime(BeginTime.getTime()+$.calendar.DifferenceInMonth[M]*1000);
+            BeginTime.setTime(BeginTime.getTime()+DifferenceInMonth[M]*1000);
         }
         if(DateGL.getDate()>BeginTime.getDate()){
-            BeginTime.setTime(BeginTime.getTime()+$.calendar.DifferenceInMonth[M]*1000);
+            BeginTime.setTime(BeginTime.getTime()+DifferenceInMonth[M]*1000);
             M++;
         }
         if(DateGL.getDate()>BeginTime.getDate()){
-            BeginTime.setTime(BeginTime.getTime()+$.calendar.DifferenceInMonth[M]*1000);
+            BeginTime.setTime(BeginTime.getTime()+DifferenceInMonth[M]*1000);
             M==23?M=0:M++;
         }
         var JQ;
         if(DateGL.getDate()==BeginTime.getDate()){
-            JQ="今日<span>"+$.calendar.SolarTermStr[M] + "</span>";
+            JQ="今日<span>"+SolarTermStr[M] + "</span>";
         }else if(DateGL.getDate()==BeginTime.getDate()-1){
-            JQ="明日<span>"+$.calendar.SolarTermStr[M] + "</span>";
+            JQ="明日<span>"+SolarTermStr[M] + "</span>";
         }else if(DateGL.getDate()==BeginTime.getDate()-2){
-            JQ="后日<span>"+$.calendar.SolarTermStr[M] + "</span>";
+            JQ="后日<span>"+SolarTermStr[M] + "</span>";
         }else{
             JQ=" ";
             if(DateGL.getMonth()==BeginTime.getMonth()){
@@ -137,135 +147,147 @@ $.calendar = {
             }else{
                 JQ+="下月";
             }
-            JQ+=BeginTime.getDate()+"日"+"<span>"+$.calendar.SolarTermStr[M]+"</span>";
+            JQ+=BeginTime.getDate()+"日"+"<span>"+SolarTermStr[M]+"<span>";
         }
         return JQ;
     }
-	,lunarInfo:new Array(
-		0x04bd8,0x04ae0,0x0a570,0x054d5,0x0d260,0x0d950,0x16554,0x056a0,0x09ad0,0x055d2,
-		0x04ae0,0x0a5b6,0x0a4d0,0x0d250,0x1d255,0x0b540,0x0d6a0,0x0ada2,0x095b0,0x14977,
-		0x04970,0x0a4b0,0x0b4b5,0x06a50,0x06d40,0x1ab54,0x02b60,0x09570,0x052f2,0x04970,
-		0x06566,0x0d4a0,0x0ea50,0x06e95,0x05ad0,0x02b60,0x186e3,0x092e0,0x1c8d7,0x0c950,
-		0x0d4a0,0x1d8a6,0x0b550,0x056a0,0x1a5b4,0x025d0,0x092d0,0x0d2b2,0x0a950,0x0b557,
-		0x06ca0,0x0b550,0x15355,0x04da0,0x0a5d0,0x14573,0x052d0,0x0a9a8,0x0e950,0x06aa0,
-		0x0aea6,0x0ab50,0x04b60,0x0aae4,0x0a570,0x05260,0x0f263,0x0d950,0x05b57,0x056a0,
-		0x096d0,0x04dd5,0x04ad0,0x0a4d0,0x0d4d4,0x0d250,0x0d558,0x0b540,0x0b5a0,0x195a6,
-		0x095b0,0x049b0,0x0a974,0x0a4b0,0x0b27a,0x06a50,0x06d40,0x0af46,0x0ab60,0x09570,
-		0x04af5,0x04970,0x064b0,0x074a3,0x0ea50,0x06b58,0x055c0,0x0ab60,0x096d5,0x092e0,
-		0x0c960,0x0d954,0x0d4a0,0x0da50,0x07552,0x056a0,0x0abb7,0x025d0,0x092d0,0x0cab5,
-		0x0a950,0x0b4a0,0x0baa4,0x0ad50,0x055d9,0x04ba0,0x0a5b0,0x15176,0x052b0,0x0a930,
-		0x07954,0x06aa0,0x0ad50,0x05b52,0x04b60,0x0a6e6,0x0a4e0,0x0d260,0x0ea65,0x0d530,
-		0x05aa0,0x076a3,0x096d0,0x04bd7,0x04ad0,0x0a4d0,0x1d0b6,0x0d250,0x0d520,0x0dd45,
-		0x0b5a0,0x056d0,0x055b2,0x049b0,0x0a577,0x0a4b0,0x0aa50,0x1b255,0x06d20,0x0ada0)
-	,nStr1:new Array('日','一','二','三','四','五','六','七','八','九','十')
-	,nStr2:new Array('初','十','廿','卅','　')
-	,nStr3:new Array("零","正","二","三","四","五","六","七","八","九","十","冬","腊")
-	,SolarTermStr:new Array(
-		"小寒","大寒","立春","雨水","惊蛰","春分",
-		"清明","谷雨","立夏","小满","芒种","夏至",
-		"小暑","大暑","立秋","处暑","白露","秋分",
-		"寒露","霜降","立冬","小雪","大雪","冬至")
-    ,DifferenceInMonth:new Array(
-		1272060,1275495,1281180,1289445,1299225,1310355,
-		1321560,1333035,1342770,1350855,1356420,1359045,
-		1358580,1355055,1348695,1340040,1329630,1318455,
-		1306935,1297380,1286865,1277730,1274550,1271556)
-	,Lunar:function(objDate) {
-	   var ret = {};
-	   var i, leap=0, temp=0;
-	   var baseDate = new Date(1900,0,31);
-	   var offset   = Math.floor((objDate.getTime() + 2206425600000)/86400000);
-	   
-	   ret.dayCyl = offset + 40;
-	   ret.monCyl = 14;
-	
-	   for(i=1900; i<2050 && offset>0; i++) {
-		  temp = $.calendar.lYearDays(i);
-		  offset -= temp;
-		  ret.monCyl += 12;
-	   }
-	   
-	   if(offset<0) {
-		  offset += temp;
-		  i--;
-		  ret.monCyl -= 12;
-	   }
-	
-	   ret.year = i;
-	   ret.yearCyl = i-1864;
-	
-	   leap = $.calendar.leapMonth(i);
-	   ret.isLeap = false;
-	
-	   for(i=1; i<13 && offset>0; i++) {
-		  if(leap>0 && i==(leap+1) && ret.isLeap==false)
-			 { --i; ret.isLeap = true; temp = $.calendar.leapDays(ret.year); }
-		  else
-			 { temp = $.calendar.monthDays(ret.year, i); }
-	
-		  if(ret.isLeap==true && i==(leap+1)) ret.isLeap = false;
-	
-		  offset -= temp;
-		  if(ret.isLeap == false) ret.monCyl ++;
-	   }
-	
-	   if(offset==0 && leap>0 && i==leap+1)
-		  if(ret.isLeap)
-			 { ret.isLeap = false; }
-		  else
-			 { ret.isLeap = true; --i; --ret.monCyl;}
-	
-	   if(offset<0){ offset += temp; --i; --ret.monCyl; }
-	
-	   ret.month = i;
-	   ret.day = offset + 1;
-	   ret.dayText=$.calendar.cDay(ret.day);
-	   ret.monthText = $.calendar.nStr3[ret.month]+'月';
-	   return ret;
-	}
-	,lYearDays:function(y) {
-	   var i, sum = 348;
-	   for(i=0x8000; i>0x8; i>>=1) sum += ($.calendar.lunarInfo[y-1900] & i)? 1: 0;
-	   return(sum+$.calendar.leapDays(y));
-	}
-	,leapDays:function(y) {
-	   if($.calendar.leapMonth(y))  return(($.calendar.lunarInfo[y-1900] & 0x10000)? 30: 29);
-	   else return(0);
-	}
-	,leapMonth:function(y) {
-	   return($.calendar.lunarInfo[y-1900] & 0xf);
-	}
-	,monthDays:function(y,m) {
-	   return( ($.calendar.lunarInfo[y-1900] & (0x10000>>m))? 30: 29 );
-	}
-	,cDay:function(d){
-		var s;
-		switch (d) {
-			case 10:
-				s = '初十'; 
-				break;
-			case 20:
-				s = '二十'; 
-				break;
-			case 30:
-				s = '三十';
-				break;
-			default :
-				s = $.calendar.nStr2[Math.floor(d/10)];
-				s += $.calendar.nStr1[d%10];
-		}
-		return(s);
-	}
+    ,DaysNumberofDate:function(DateGL){
+        var y1 = DateGL.getFullYear();
+        return parseInt((Date.parse(DateGL)-Date.parse(y1+"/1/1"))/86400000)+1;
+    }
+    ,CnEra:function(YYYY){
+        var Tiangan=new Array("甲","乙","丙","丁","戊","己","庚","辛","壬","癸");
+        //var Dizhi=new Array("子(鼠)","丑(牛)","寅(虎)","卯(兔)","辰(龙)","巳(蛇)",
+                        //"午(马)","未(羊)","申(猴)","酉(鸡)","戌(狗)","亥(猪)");
+        var Dizhi=new Array("子","丑","寅","卯","辰","巳","午","未","申","酉","戌","亥");
+        return Tiangan[YYYY%10]+Dizhi[YYYY%12];
+    }
+    ,CnYearofDate:function(DateGL){
+        var YYYY= DateGL.getFullYear();
+        var MM=DateGL.getMonth()+1;
+        var CnMM=parseInt(Math.abs($.calendar.CnDateofDate(DateGL))/100);
+        if(YYYY<100) YYYY+=1900;
+        if(CnMM>MM) YYYY--;
+        YYYY-=1864;
+        return $.calendar.CnEra(YYYY)+"年";
+    }
+    ,CnDateofDate:function(DateGL){
+        var CnData=new Array(
+        0x16,0x2a,0xda,0x00,0x83,0x49,0xb6,0x05,0x0e,0x64,0xbb,0x00,0x19,0xb2,0x5b,0x00,
+        0x87,0x6a,0x57,0x04,0x12,0x75,0x2b,0x00,0x1d,0xb6,0x95,0x00,0x8a,0xad,0x55,0x02,
+        0x15,0x55,0xaa,0x00,0x82,0x55,0x6c,0x07,0x0d,0xc9,0x76,0x00,0x17,0x64,0xb7,0x00,
+        0x86,0xe4,0xae,0x05,0x11,0xea,0x56,0x00,0x1b,0x6d,0x2a,0x00,0x88,0x5a,0xaa,0x04,
+        0x14,0xad,0x55,0x00,0x81,0xaa,0xd5,0x09,0x0b,0x52,0xea,0x00,0x16,0xa9,0x6d,0x00,
+        0x84,0xa9,0x5d,0x06,0x0f,0xd4,0xae,0x00,0x1a,0xea,0x4d,0x00,0x87,0xba,0x55,0x04
+        );
+        var CnMonth=new Array();
+        var CnMonthDays=new Array();
+        var CnBeginDay;
+        var LeapMonth;
+        var Bytes=new Array();
+        var I;
+        var CnMonthData;
+        var DaysCount;
+        var CnDaysCount;
+        var ResultMonth;
+        var ResultDay;
+        var yyyy=DateGL.getFullYear();
+        //var mm=DateGL.getMonth()+1;
+        //var dd=DateGL.getDate();
+        if(yyyy<100) yyyy+=1900;
+        if ((yyyy < 1997) || (yyyy > 2020)){
+            return 0;
+        }
+        Bytes[0] = CnData[(yyyy - 1997) * 4];
+        Bytes[1] = CnData[(yyyy - 1997) * 4 + 1];
+        Bytes[2] = CnData[(yyyy - 1997) * 4 + 2];
+        Bytes[3] = CnData[(yyyy - 1997) * 4 + 3];
+        if ((Bytes[0] & 0x80) != 0) {CnMonth[0] = 12;}
+        else {CnMonth[0] = 11;}
+        CnBeginDay = (Bytes[0] & 0x7f);
+        CnMonthData = Bytes[1];
+        CnMonthData = CnMonthData << 8;
+        CnMonthData = CnMonthData | Bytes[2];
+        LeapMonth = Bytes[3];
+        for (I=15;I>=0;I--){
+            CnMonthDays[15 - I] = 29;
+            if (((1 << I) & CnMonthData) != 0 ){
+                CnMonthDays[15 - I]++;
+            }
+            if (CnMonth[15 - I] == LeapMonth ){
+                CnMonth[15 - I + 1] = - LeapMonth;
+            }else{
+                if (CnMonth[15 - I] < 0 ){CnMonth[15 - I + 1] = - CnMonth[15 - I] + 1;}
+                else {CnMonth[15 - I + 1] = CnMonth[15 - I] + 1;}
+                if (CnMonth[15 - I + 1] > 12 ){ CnMonth[15 - I + 1] = 1;}
+            }
+        }
+        DaysCount = $.calendar.DaysNumberofDate(DateGL) - 1;
+        if (DaysCount <= (CnMonthDays[0] - CnBeginDay)){
+            if ((yyyy > 1901) && ($.calendar.CnDateofDate(new Date((yyyy - 1)+"/12/31")) < 0)){
+                ResultMonth = - CnMonth[0];
+            }else{
+                ResultMonth = CnMonth[0];
+            }
+            ResultDay = CnBeginDay + DaysCount;
+        }else{
+            CnDaysCount = CnMonthDays[0] - CnBeginDay;
+            I = 1;
+            while ((CnDaysCount < DaysCount) && (CnDaysCount + CnMonthDays[I] < DaysCount)){
+                CnDaysCount+= CnMonthDays[I];
+                I++;
+            }
+            ResultMonth = CnMonth[I];
+            ResultDay = DaysCount - CnDaysCount;
+        }
+        if (ResultMonth > 0){
+            return ResultMonth * 100 + ResultDay;
+        }else{
+            return ResultMonth * 100 - ResultDay;
+        }
+    }
+    ,CnYearofDate:function(DateGL){
+        var YYYY= DateGL.getFullYear();
+        var MM=DateGL.getMonth()+1;
+        var CnMM=parseInt(Math.abs($.calendar.CnDateofDate(DateGL))/100);
+        if(YYYY<100) YYYY+=1900;
+        if(CnMM>MM) YYYY--;
+        YYYY-=1864;
+        return $.calendar.CnEra(YYYY)+"年";
+    }
+    ,CnMonthofDate:function(DateGL){
+        var  CnMonthStr=new Array("零","正","二","三","四","五","六","七","八","九","十","冬","腊");
+        var  Month;
+        Month = parseInt($.calendar.CnDateofDate(DateGL)/100);
+        if (Month < 0){
+            return {number:-Month,text:"闰" + CnMonthStr[-Month] + "月"};
+        }else{
+            return {number:Month,text:CnMonthStr[Month] + "月"};
+        }
+    }
+    ,CnDayofDate:function(DateGL){
+        var CnDayStr=new Array("零",
+            "初一", "初二", "初三", "初四", "初五",
+            "初六", "初七", "初八", "初九", "初十",
+            "十一", "十二", "十三", "十四", "十五",
+            "十六", "十七", "十八", "十九", "二十",
+            "廿一", "廿二", "廿三", "廿四", "廿五",
+            "廿六", "廿七", "廿八", "廿九", "三十");
+        var Day;
+        Day = (Math.abs($.calendar.CnDateofDate(DateGL)))%100;
+        return {number:Day,text:CnDayStr[Day]};
+    }
     ,today:new Date()
     ,detail:function(DateGL){
         if(typeof DateGL == "string"){
             DateGL = DateGL.toDate();
         };
-        var ret = {},cndate = $.calendar.Lunar(DateGL);
+        var ret = {};
         ret.value = DateGL.pattern("yyyy-MM-dd");
         DateGL.getFullYear()==$.calendar.today.getFullYear() && DateGL.getMonth()==$.calendar.today.getMonth() && DateGL.getDate()==$.calendar.today.getDate() && (ret.today = true);
-        ret.cnMonth = {number:cndate.month,text:cndate.monthText};
-        ret.cnDay = {number:cndate.day,text:cndate.dayText};
+        ret.cnYear = "农历"+$.calendar.CnYearofDate(DateGL);
+        ret.cnMonth = $.calendar.CnMonthofDate(DateGL);
+        ret.cnDay = $.calendar.CnDayofDate(DateGL);
         ret.solarTerm = $.calendar.SolarTerm(DateGL);
         for(i in $.calendar.sFtv)
             if($.calendar.sFtv[i].match(/^(\d{2})(\d{2})([\s\*])(.+)$/))
@@ -321,57 +343,89 @@ $.calendar = {
 };
 $.fn.extend({
     calendar:function(x){
-        var d_x = {count:2,debug:!1,showHoliday:!0,yearRange:false,monthRange:false,ignoreCanVisit:false,tip:true,float:false};
+        var d_x = {count:2,debug:!1,showHoliday:!0,yearRange:true,monthRange:false};
         x = $.extend(d_x,x);
-		if(x.count>1)x.ignoreCanVisit = true;
-		if(x.yearRange)x.ignoreCanVisit = true;
-		if(x.monthRange)x.ignoreCanVisit = true;
         var m=null,n=null,w=null,_w=null,id=null;
-        function A(u){
-            var t,_s = [],_u = new Date(); 
-            u.setDate(1);
-            _u.setFullYear(u.getFullYear());_u.setMonth(u.getMonth());_u.setDate(1);
-            t = m.data("sd");t.setFullYear(_u.getFullYear());t.setMonth(_u.getMonth());
-            for(var i = 0;i<x.count;i++){
-                t = _u.pattern('yyyyMM');
-                t = m.find("#c"+id+t);
-                if(!t.length){
-                    t = H(_u);
-                    m.find(".content").append(t);
-                };
-                _u.setMonth(_u.getMonth()+1);
-                _s.push(t);
-            }
-            m.find(".monthbox").each(function(i,j){
-                j = $(j);
-                var t1 = j.data("date");
-                var t2 = 12*(u.getFullYear()-t1.getFullYear())+(u.getMonth()-t1.getMonth());
-                j.css({left:-(t2*221)}).data("pos",-(t2*221));
-                if(x.debug && window.console){
-                    console.log('position==>'+j.attr('id')+":"+(-t2*221));
-                }
-            });
-            S(u);
-            for(var i=0;i<_s.length;i++){
-                X(_s[i]);
-            }
-            N(u);
-        }
         function K(){
-        	if(!(new Date()).pattern)return false;
-        	if(!''.toDate)return false;
             var z;
             $.calendar.counter++;
             id = $.calendar.counter;
             m = L();
-            z = new Date();
-            x.defaultYear && z.setFullYear(x.defaultYear);
-            x.defaultMonth && z.setMonth(x.defaultMonth);
-            z.setDate(1);m.data("sd",z);
+            z = new Date();z.setDate(1);m.data("sd",z);
             T();
-            n.focus(B);
-            $(window).resize(Z);
-            $(document).mousedown(Q);
+            n.focus(function(){
+                var s = n.val(),t,u,_s = [];
+				if(!!s){
+					u = s.toDate();
+				}else{
+					u = new Date();
+				}
+                u.setDate(1);
+                t = m.data("sd");t.setFullYear(u.getFullYear());t.setMonth(u.getMonth());
+                for(var i = 0;i<x.count;i++){
+                    t = u.pattern('yyyyMM');
+                    t = m.find("#c"+id+t);
+                    if(!t.length){
+                        t = H(u);
+                        m.find(".content").append(t);
+                    };
+                    u.setMonth(u.getMonth()+1);
+                    _s.push(t);
+                }
+				
+                if(!!s){
+					u = s.toDate();
+				}else{
+					u = new Date();
+				}
+                m.find(".monthbox").each(function(i,j){
+                    j = $(j);
+                    var t1 = j.data("date");
+                    var t2 = 12*(u.getFullYear()-t1.getFullYear())+(u.getMonth()-t1.getMonth());
+                    j.css({left:-(t2*221)}).data("pos",-(t2*221));
+                    if(x.debug){
+                        console.log(j.attr('id')+":"+(-t2*221));
+                    }
+                });
+                S(u);
+                for(var i=0;i<_s.length;i++){
+                    X(_s[i]);
+                }
+                N(u);
+				$(".selectBox,.select_warp,.calendar").hide();
+                m.show();m.position({
+                    of: n,
+                    my: "left top",
+                    at: "left bottom",
+                    offset:"0 4",
+                    collision:"none none"
+                });
+                w.html($.calendar.detail(u).text);
+                _w.show().position({
+                    of: n,
+                    my: "left bottom",
+                    at: "left top",
+                    offset:"0 -4",
+                    collision:"none none"
+                });
+            });
+            $(document).mousedown(function(e){
+                var t = $(e.target);
+                if(!!t.parents(".not_close").length || t.hasClass("not_close")){
+                    O($('.select:visible'));
+                    var a = t.data("showmenu");
+                    m.find(".year,.month").data("showmenu",false);
+                    if(t.hasClass('year') || t.hasClass('month')){
+                        t.data("showmenu",!a);
+                    }
+                    return false;
+                }
+                n.blur();
+                _w.hide();
+                $(".select").hide();
+                m.find(".year,.month").data("showmenu",false);
+                m.hide();
+            });
             !x.canread && n.attr("readonly","readonly").css({cursor:"pointer"});
             var st = !!n.val()?n.val().toDate():new Date();
             n.data("text",$.calendar.detail(st).text);
@@ -379,10 +433,6 @@ $.fn.extend({
             m.find(".content").empty().append(z);
             m.find(".next,.prev").click(function(){
                 var a,b,c = m.data("sd"),d = $(this).hasClass("next")?(221*x.count):-221,e,k;
-				k = G(m.data("sd"));
-				if(x.debug && window.console)console.log('show:'+m.data('sd').pattern('yyyy-MM-dd')+',status:'+k)
-                if(!x.ignoreCanVisit && (((k & 1)&&d<0) || ((k & 4)&&d>0)))
-                    return false;
                 k = new Date(),k.setFullYear(c.getFullYear()),
                 k.setDate(1),k.setMonth(c.getMonth()+(d>0?x.count:-1)),
                 a = m.find("#c"+id+c.pattern("yyyyMM")),
@@ -397,6 +447,9 @@ $.fn.extend({
                     m.find(".content").append(c);
                     b = c;
                 };
+                k = G(m.data("sd"));
+                if(k & 2 || k & 8)
+                    return false;
                 X(b);
                 m.find(".monthbox").each(function(i,j){
                     var pos = $(j).data("pos");
@@ -416,26 +469,11 @@ $.fn.extend({
         }
         function I(){
             var _this = $(this);
-			if(x.tip){
-				if(x.float){
-					var a = _this.data("text");
-					w.find('.cn').html(a.split("&")[0]);
-					w.find('.imp').html(a.split(";")[2].replace(/^\s*/,'').replace(/\s/gi,'<br/>'));
-					w.show().position({
-                        of: _this,
-                        my: "left top",
-                        at: "left bottom",
-                        offset:"-36 8",
-                        collision:"none none"
-                    });
-				}else{
-					w.html(_this.data("text"));
-					if(w.height()!=_w.height()){
-						_w.stop().animate({top:"-="+(w.height()-_w.height())+"px",height:w.height()},500);
-					}
-				}
-				_this.hasClass("dis") && _w.addClass("dis");
-			}
+            w.html(_this.data("text"));
+            if(w.height()!=_w.height()){
+                _w.stop().animate({top:"-="+(w.height()-_w.height())+"px",height:w.height()},500);
+            }
+            _this.hasClass("dis") && _w.addClass("dis");
             if(_this.hasClass("dis") || _this.hasClass("cur")){
                 n.data("f",true);
                 return false;
@@ -444,17 +482,11 @@ $.fn.extend({
         }
         function J(){
             var _this = $(this);
-			if(x.tip){
-				if(x.float){
-					w.hide();
-				}else{
-					w.html(n.data("text"));
-					if(w.height()!=_w.height() && _w.is(":visible")){
-						_w.stop().animate({top:"-="+(w.height()-_w.height())+"px",height:w.height()},500);
-					}
-				}
-				_w.removeClass("dis");
-			}
+            w.html(n.data("text"));
+            _w.removeClass("dis");
+            if(w.height()!=_w.height() && _w.is(":visible")){
+                _w.stop().animate({top:"-="+(w.height()-_w.height())+"px",height:w.height()},500);
+            }
             if(_this.hasClass("dis") || _this.hasClass("cur")){
                 n.data("f",false);
                 return false;
@@ -482,15 +514,13 @@ $.fn.extend({
                   g = d.getDate();
                   l = $.calendar.detail(d);
                   _g = !1;
-				  if(x.showHoliday){
-					  if(l.holiday){
-						  if(/^([\u4E00-\u9FA5]{2})节?(\s|$)/.test(l.holiday)){
-							  _g = RegExp.$1;
-						  }
-					  }else if(l.today){
-						  _g = "今天";
-					  }
-				  }
+                  if(l.holiday){
+                      if(/^([\u4E00-\u9FA5]{2})节?(\s|$)/.test(l.holiday)){
+                          _g = RegExp.$1;
+                      }
+                  }else if(l.today){
+                      _g = "今天";
+                  }
                   f.append($("<li>").addClass("daybtn").append(el = $("<a>").data("text",l.text).data("date",(g<10?"0":"")+g).html(_g?_g:g).hover(I,J).mousedown(function(){
                       var a = $(this),b = a.parents(".monthbox");
                       if(a.hasClass("dis")){
@@ -510,7 +540,7 @@ $.fn.extend({
                   !!l.today && el.addClass("today");
                   d.setDate(g+1);
               }
-              if(x.debug && window.console){f.append($("<li>").css({
+              if(x.debug){f.append($("<li>").css({
                   float:'right'
                   ,'text-align':'center'
                   ,font: '13px/23px \'黑体\''
@@ -520,37 +550,26 @@ $.fn.extend({
               return f;
         }
         function L(){
-			if(x.float){
-				w = $('#cnfloat');
-				w.length || (w = $("<div>").attr('id','cnfloat')
-				.append($('<div>').addClass('cn'))
-				.append($('<div>').addClass('imp'))
-				.append($('<div>').addClass('arrow'))
-				.append($('<div>').addClass('sarrow'))
-				.appendTo($('body')));
-				_w = w;
-			}else{
-				w = $("#cndate div");
-				w.length || (w = $("<div>").appendTo($("<div id='cndate'>").appendTo($("body"))));
-				_w = $("#cndate");
-			}
+            w = $("#cndate div");
+            w.length || (w = $("<div>").appendTo($("<div id='cndate'>").appendTo($("body"))));
+            _w = $("#cndate");
             var a = $("<div>").addClass("nav").addClass("not_close").append(
                 $("<a>").addClass("prev"));
             for(var i=0;i<x.count;i++){
                 a.append($("<span>").addClass("title").css({left:80+i*221}));
                 if((x.yearRange||x.monthRange)&&i==0){
-                    var l1 = $("<label>"),l2 = $("<label>");
+                    var l1 = $("<label>");
                     if(x.yearRange){
                         l1.addClass("year").click(function(){
                             var a = $(this),b,c,d;
                             b = a.data("showmenu");
-                            P(a,false);
+                            if(!x.yts){P(a,false);}
                             if(b){
                                 if(!x.yts.is(':visible')){
                                     x.yts.height(0).show();
                                     x.ybs.height(0).show();
                                 }
-                                x.yts.stop();
+								x.yts.stop();
                                 x.yts.position({
                                     of: $(this),
                                     my: "left bottom",
@@ -558,11 +577,11 @@ $.fn.extend({
                                     offset:"-1 0",
                                     collision:"none none"
                                 });
-                                c = +x.yts.css('top').replace(/px/gi,''),d = x.yts.height();
+								c = +x.yts.css('top').replace(/px/gi,''),d = x.yts.height();
                                 x.yts.animate({height:x.th},{step:function(now,fx){
-                                    $(fx.elem).css("top",c-now+d);
-                                }});
-                                x.ybs.stop();
+									$(fx.elem).css("top",c-now+d);
+								}});
+								x.ybs.stop();
                                 x.ybs.position({
                                     of: $(this),
                                     my: "left top",
@@ -574,47 +593,21 @@ $.fn.extend({
                             }
                         });
                     }
-                    if(x.monthRange){
-                        l2.addClass("month").click(function(){
-                            var a = $(this),b;
-                            b = a.data("showmenu");
-                            P(a,true);
-                            if(b){
-                                if(!x.mbs.is(':visible')){
-                                    x.mbs.height(0).show();
-                                }
-                                x.mbs.stop();
-                                x.mbs.position({
-                                    of: $(this),
-                                    my: "left top",
-                                    at: "left bottom",
-                                    offset:"-1 0",
-                                    collision:"none none"
-                                });
-                                x.mbs.animate({height:x.mbh});
-                            }
-                        });
-                    }
-                    a.find(".title").css({left:70}).append(l1)
+                    a.find(".title").append(l1)
                     .append($("<span>").html('年'))
-                    .append(l2)
+                    .append($("<label>").addClass("month"))
                     .append($("<span>").html('月'));
                 }
             }
             a.append($("<a>").addClass("next"));
-            return $("<div>")
-            .addClass("calendar").css("display","none")
+            return $("<div>").addClass("calendar").css("display","none")
             .append(a)
             .append($("<div>").addClass("week"))
             .append($("<div>").addClass("content")).appendTo($("body"));
         }
         function M(){
-            n.unbind("focus",B);
-			$(document).unbind('mousedown',Q);
-			$(window).unbind('resize',Z);
+            n.unbind("focus").unbind("blur");
             m.detach();
-			m = undefined;
-			return n;
         }
         function G(a){
             var r = 0,_a = new Date();
@@ -663,7 +656,6 @@ $.fn.extend({
         }
         function N(a){
             m.find(".prev,.next").show();
-			if(x.ignoreCanVisit){return;}
             var h = G(a);
             if(h & 1 || h & 2){
                 m.find(".prev").hide();
@@ -683,10 +675,7 @@ $.fn.extend({
                     }else if(x.minDate.pattern){
                         c = x.minDate.pattern("yyyy-MM");
                         p = x.minDate.getDate();
-                    }else{
-						c = x.minDate.replace(/-\d\d$/g,"");
-						p = +x.minDate.replace(/^\d{4}-\d{2}-/g,'');
-					}
+                    }
                 }
                 if(x.maxDate){
                     if(x.maxDate.val){
@@ -696,10 +685,7 @@ $.fn.extend({
                     }else if(x.maxDate.pattern){
                         d = x.maxDate.pattern("yyyy-MM");
                         q = x.maxDate.getDate();
-                    }else{
-						d = x.maxDate.replace(/-\d\d$/g,"");
-						q = +x.maxDate.replace(/^\d{4}-\d{2}-/g,'');
-					}
+                    }
                 }
             }
             e = a.data("date").pattern("yyyy-MM");
@@ -742,7 +728,7 @@ $.fn.extend({
             }
             if(c && c.localeCompare(e)==0){
                 f.each(function(i,j){
-                    g = $(j).data('date');
+                    g = $(j).html();
                     if(!g)return;
                     if(p > parseInt(g,10)){
                         $(j).addClass("dis");
@@ -752,21 +738,13 @@ $.fn.extend({
             }
             if(d && d.localeCompare(e)==0){
                 f.each(function(i,j){
-                    g = $(j).data('date');
+                    g = $(j).html();
                     if(!g)return;
                     if(q < parseInt(g,10)){
                         $(j).addClass("dis");
                         $(j).css({color:s.dis});
                     }
                 });
-            }
-			if(c && c.localeCompare(e)>0){
-            	f.addClass("dis");
-            	f.css({color:s.dis});
-            }
-			if(d && d.localeCompare(e)<0){
-            	f.addClass("dis");
-            	f.css({color:s.dis});
             }
         }
         function S(u){
@@ -812,12 +790,12 @@ $.fn.extend({
                 if(j.hasClass('top')){
                     x.yts.stop();
                     var h = x.yts.height(),t = +x.yts.css('top').replace(/px/gi,'');
-                    console.log(t);
+					console.log(t);
                     j.stop().animate({height:0},{step:function(now,fx){
-                        $(fx.elem).css("top",t+h-now);
-                    },complete: function() {
-                      $(this).hide();
-                    }});
+						$(fx.elem).css("top",t+h-now);
+					},complete: function() {
+					  $(this).hide();
+					}});
                 }else{
                     j.stop().animate({height:0},"normal","linear",function(){$(this).hide()});
                 }
@@ -826,70 +804,28 @@ $.fn.extend({
         }
         function P(a,b){
             var u,v = +a.html(),s = 4;
+            u = x.yts = $("<ul>").addClass("select").addClass("top").addClass("not_close");
+            u.width(a.outerWidth(true));
             if(!b){
-                if(!x.yts){
-                    u = x.yts = $("<ul>").addClass("select").addClass("top").addClass("not_close");
-                    u.width(a.outerWidth(true));
-                    for(var i=0;i<s;i++){
-                        u.append($("<li>").html(v-s+i).hover(R,R).addClass(i==s-1?'last':'').mousedown(U));
-                    }
-                    u.appendTo($("body"));
-                    x.th=u.height();
-                    u.height(0).hide();
-                    
-                    u = x.ybs = $("<ul>").addClass("select").addClass("bottom").addClass("not_close");
-                    u.width(a.outerWidth(true));
-                    for(var i=0;i<s;i++){
-                        u.append($("<li>").html(v+1+i).hover(R,R).addClass(i==0?'first':'').mousedown(U));
-                    }
-                    u.appendTo($("body"));
-                    x.bh=u.height();
-                    u.height(0).hide();
-                }else{
-                    var tm = x.yts.find('li');
-                    for(var i=0;i<tm.length;i++){
-                        $(tm[i]).html(v-tm.length+i);
-                    }
-                    tm = x.ybs.find('li');
-                    for(var i=0;i<tm.length;i++){
-                        $(tm[i]).html(v+1+i);
-                    }
-                }
-            }else{
-                if(!x.mbs){
-                    u = x.mbs = $("<ul>").addClass("select").addClass("bottom").addClass("not_close");
-                    u.width(a.outerWidth(true));
-                    for(var i=1;i<13;i++){
-                        if(v == i)
-                            continue;
-                        u.append($("<li>").html(i).hover(R,R).addClass(i==0?'first':'').mousedown(V));
-                    }
-                    u.appendTo($("body"));
-                    x.mbh=u.height();
-                    u.height(0).hide();
-                }else{
+                for(var i=0;i<s;i++){
+                    u.append($("<li>").html(v-s+i).hover(R,R).addClass(i==s-1?'last':'').mousedown(U));
                 }
             }
+            u.appendTo($("body"));
+            x.th=u.height();
+            u.height(0).hide();
+            
+            u = x.ybs = $("<ul>").addClass("select").addClass("bottom").addClass("not_close");
+            u.width(a.outerWidth(true));
+            if(!b){
+                for(var i=0;i<s;i++){
+                    u.append($("<li>").html(v+1+i).hover(R,R).addClass(i==0?'first':'').mousedown(U));
+                }
+            }
+            u.appendTo($("body"));
+            x.bh=u.height();
+            u.height(0).hide();
         }
-		function Q(e){
-			var t = $(e.target);
-			if(!!t.parents(".not_close").length || t.hasClass("not_close")){
-				O($('.select:visible'));
-				var a = t.data("showmenu");
-				m.find(".year,.month").data("showmenu",false);
-				if(t.hasClass('year') || t.hasClass('month')){
-					t.data("showmenu",!a);
-				}
-				return false;
-			}
-			n.blur();
-			if(x.tip && !x.float){
-				_w.hide();
-			}
-			$(".select").hide();
-			m.find(".year,.month").data("showmenu",false);
-			m.hide();
-		}
         function R(){
             var a = $(this),b = a.parents('ul'),c = a.index();
             a.toggleClass("hover");
@@ -909,141 +845,11 @@ $.fn.extend({
             }
         }
         function U(){
-            var a = $(this),b = +a.html(),c = m.data("sd"),d = c.getMonth();
-            c.setFullYear(b);c.setMonth(d),c.setDate(1);
-            A(c);
+            var a = $(this),b = +a.html();
+            alert(b);
         }
-        function V(){
-            var a = $(this),b = +a.html(),c = m.data("sd");
-            c.setDate(1);
-            c.setMonth(b-1);
-            A(c);
-        }
-		function B(){
-			var s = n.val(),u;
-			if(!!s){
-				u = s.toDate();
-			}else{
-				u = m.data('sd');
-				!u && (u = new Date());
-				if(!x.ignoreCanVisit){
-					if(x.maxDate){
-						var c;
-						if(x.maxDate.val){
-							c = x.maxDate.val().toDate();
-						}else if(x.maxDate.toDate){
-							c = x.maxDate.toDate();
-						}else{
-							c = x.maxDate;
-						}
-						if(c && c.getFullYear){
-							if(c.getFullYear()<u.getFullYear()){
-								u.setFullYear(c.getFullYear());
-							}
-							if(c.getMonth()<u.getMonth()){
-								u.setMonth(c.getMonth());
-							}
-							if(c.getDate()<u.getDate()){
-								u.setDate(c.getDate());
-							}
-						}
-					}
-					if(x.minDate){
-						var c;
-						if(x.minDate.val){
-							c = x.minDate.val().toDate();
-						}else if(x.minDate.toDate){
-							c = x.minDate.toDate();
-						}else{
-							c = x.minDate;
-						}
-						if(c && c.getFullYear){
-							if(c.getFullYear()>u.getFullYear()){
-								u.setFullYear(c.getFullYear());
-							}
-							if(c.getMonth()>u.getMonth()){
-								u.setMonth(c.getMonth());
-							}
-							if(c.getDate()>u.getDate()){
-								u.setDate(c.getDate());
-							}
-						}
-					}
-				}
-			}
-			A(u);
-			$(".selectBox,.select_warp,.calendar").hide();
-			m.show();m.position({
-				of: n,
-				my: "left top",
-				at: "left bottom",
-				offset:"0 4",
-				collision:"none none"
-			});
-			if(x.tip){
-				if(x.float){
-				}else{
-					w.html($.calendar.detail(u).text);
-					_w.show().position({
-						of: n,
-						my: "left bottom",
-						at: "left top",
-						offset:"0 -4",
-						collision:"none none"
-					});
-				}
-			}
-		}
-		function Z(){
-			if(m.is(':visible')){
-				m.position({
-					of: n,
-					my: "left top",
-					at: "left bottom",
-					offset:"0 4",
-					collision:"none none"
-				});
-				if(x.tip && !x.float){
-					_w.position({
-						of: n,
-						my: "left bottom",
-						at: "left top",
-						offset:"0 -4",
-						collision:"none none"
-					});
-				}
-				if(x.yearRange && x.yts && x.yts.is(':visible')){
-					var _t = m.find('.year');
-					x.yts.position({
-						of: _t,
-						my: "left bottom",
-						at: "left top",
-						offset:"-1 0",
-						collision:"none none"
-					});
-					x.ybs.position({
-						of: _t,
-						my: "left top",
-						at: "left bottom",
-						offset:"-1 0",
-						collision:"none none"
-					});
-				}
-				if(x.monthRange && x.mbs && x.mbs.is(':visible')){
-					var _t = m.find('.month');
-					x.mbs.position({
-						of: _t,
-						my: "left top",
-						at: "left bottom",
-						offset:"-1 0",
-						collision:"none none"
-					});
-				}
-			}
-		}
         n = $(this);
         K();
-		n.destroy = M;
-        return n;
+        return M;
     }
 });

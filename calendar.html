@@ -3,18 +3,143 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>canlendar</title>
+<style>
+.text{
+	font: 12px/25px "微软雅黑";
+	color:#31422A;
+}
+
+.text label{
+	color:#FE275A;
+	padding:0 5px;
+	display:inline-block;
+	width:80px;
+}
+#minDate,#maxDate{
+	width:80px;
+	margin:0 5px;
+}
+</style>
 <link href="css/calendar.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" language="javascript" src="js/jquery-latest.min.js"></script>
 <script type="text/javascript" language="javascript" src="js/util.js"></script>
 <script type="text/javascript" language="javascript" src="js/calendar.preview.js"></script>
 <script type="text/javascript" language="javascript">
+	var a = [];
     $(function(){
-        $("#id").val('').calendar({float:true,count:1,debug:false,yearRange:true,defaultYear:0,maxDate:'2012-12-15'});
+        E();
+		$("#apply").click(E);
+		$('#minDate').val('').calendar({tip:false,maxDate:$('#maxDate'),count:1,showHoliday:false});
+		$('#maxDate').val('').calendar({tip:false,maxDate:$('#minDate'),count:1,showHoliday:false});
     })
+	function E(){
+		var option = {};
+		option.count = +$('#count').val();
+		option.debug = !!$('#debug').val();
+		option.showHoliday = !!$('#showHoliday').val();
+		option.yearRange = !!$('#yearRange').val();
+		option.monthRange = !!$('#monthRange').val();
+		option.ignoreCanVisit = !!$('#ignoreCanVisit').val();
+		option.float = !!$('#float').val();
+		option.tip = !!$('#tip').val();
+		option.minDate = $('#minDate').val();
+		option.maxDate = $('#maxDate').val();
+		option.defaultYear = $('#defaultYear').val();
+		option.defaultMonth = $('#defaultMonth').val();
+		if(!a.length){
+			a = $("#id").val('').calendar(option);
+		}else{
+			a = a.destroy().val('').calendar(option);
+		}
+	}
 </script>
 </head>
 
 <body>
-    <div  style="margin:50px auto;width:100px;"><input id="id"/></div>
+    <div  style="margin:70px 50px;width:100px;"><input id="id"/></div>
+    <div class="text">
+      用法： <br />
+      $(&rdquo;选择器&rdquo;).calendar(option/*参数*/)<br />
+      参数属性的详细说明： <input id="apply" type="button" value="应用改变"/><br />
+      <hr/>
+      <label>count</label>
+      <select id='count'>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      </select>
+      日历的个数(整型) ,默认:2<br />
+      <label>debug</label>
+      <select id='debug'>
+      <option value="">false</option>
+      <option value="1">true</option>
+      </select>
+      调试模式(bool型),默认:false<br />
+      <label>showHoliday</label>
+      <select id='showHoliday'>
+      <option value="">false</option>
+      <option value="1">true</option>
+      </select>
+      节目是否显示(bool型)  ,默认:true<br />
+      <label>minDate</label><input id='minDate'/>最小可选日期(字符串[格式：yyyy-MM-dd],Date对象,input等有value的控件)，默认无 <br />
+      <label>maxDate</label><input id='maxDate'/>最大可选日期，默认无 <br />
+      <label>yearRange</label>
+      <select id='yearRange'>
+      <option value="">false</option>
+      <option value="1">true</option>
+      </select>年份是否可调(bool型)  ,默认:false<br />
+      <label>monthRange</label>
+      <select id='monthRange'>
+      <option value="">false</option>
+      <option value="1">true</option>
+      </select>
+      月份是否可调(bool型)  ,默认:false<br />
+      <label>ignoreCanVisit</label>
+      <select id='ignoreCanVisit'>
+      <option value="">false</option>
+      <option value="1">true</option>
+      </select>
+      不可选的月份是否可访问，当count&gt;1或启用yearRange和monthRange时该参数无效(bool型) ,默认:false<br />
+      <label>tip</label>
+      <select id='tip'>
+      <option value="">false</option>
+      <option value="1">true</option>
+      </select>
+      农历提示框是否显示(bool型) ,默认:true<br />
+      <label>float</label>
+      <select id='float'>
+      <option value="">false</option>
+      <option value="1">true</option>
+      </select>
+      农历提示框是否浮动(bool型) ,默认:false<br />
+      <label>defaultYear</label>
+      <select id='defaultYear'>
+      <option value="">无</option>
+      <option value="2008">2008</option>
+      <option value="2009">2009</option>
+	  <option value="2010">2010</option>
+      <option value="2011">2011</option>
+      <option value="2012">2012</option>
+      </select>
+      默认显示年份(整型)，默认无 <br />
+      <label>defaultMonth</label>
+      <select id='defaultMonth'>
+      <option value="">无</option>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+      <option value="6">6</option>
+      <option value="7">7</option>
+      <option value="8">8</option>
+      <option value="9">9</option>
+      <option value="10">10</option>
+      <option value="11">11</option>
+      <option value="12">12</option>
+      </select>
+      默认显示月份(整型)，默认无 <br />
+    </div>
 </body>
 </html>

@@ -380,7 +380,7 @@ $.fn.extend({
             m.find(".next,.prev").click(function(){
                 var a,b,c = m.data("sd"),d = $(this).hasClass("next")?(221*x.count):-221,e,k;
 				k = G(m.data("sd"));
-				if(x.debug && window.console)console.log('show:'+m.data('sd').pattern('yyyy-MM-dd')+',status:'+k)
+				if(x.debug && window.console)console.log('show:'+m.data('sd').pattern('yyyy-MM-dd')+',status:'+k);
                 if(!x.ignoreCanVisit && (((k & 1)&&d<0) || ((k & 4)&&d>0)))
                     return false;
                 k = new Date(),k.setFullYear(c.getFullYear()),

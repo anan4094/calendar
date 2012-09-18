@@ -66,14 +66,14 @@
     position:relative;
 }
 
-.calendar .nav>span{
+.calendar .nav .title{
     position:absolute;
     left:80px;
     font:12px/25px "微软雅黑";
     text-shadow: 1px 1px 3px #333333;
 }
 
-.calendar .nav>span span{
+.calendar .nav .title span{
     padding:0 2px;
 }
 .calendar .nav .year{
@@ -95,8 +95,8 @@
     color: #000000;
 }
 .calendar .week {
-    margin: 5px 5px 0;
-    width: 210px;
+    margin:0;
+    width: 220px;
     height:25px;
 }
 .calendar .week ol {
@@ -107,7 +107,7 @@
     height: 22px;
     list-style-type: none;
     margin: 0;
-    padding: 0;
+    padding: 0 2px 0 8px;
     width: 210px;
 }
 .calendar .week ol li {
@@ -160,11 +160,11 @@
     text-align: center;
 }
 .calendar .content{
-      position:relative;
-      width:220px;
-      overflow: hidden;
-      height:165px;
-      border-radius: 0 0 6px 6px;
+    position:relative;
+    width:220px;
+    overflow: hidden;
+    height:165px;
+    border-radius: 0 0 6px 6px;
 }
 
 .calendar .content ol{
@@ -187,21 +187,31 @@
       background-position:-27px 0;
       float:right;
 }
-
+.calendar iframe{
+    background:#FFF;
+    position:absolute;
+    top:0;
+    z-index:-1;
+    background:#67A1E2;
+}
 #cndate{
-    position:relative;
+    position:absolute;
     display:none;
     background: #67A1E2;
     border: 3px solid #fff;
-    border: 1px solid #67A1E2\0;
+    *border: 1px solid #67A1E2;
+    border: 1px solid #67A1E2\9;
     box-shadow: 1px 1px 3px #333333;
     text-shadow: 1px 1px 2px #333333;
     border-radius: 6px 6px 6px 0;
     padding: 2px 4px;
-    padding: 2px 2px\0;
-    background: #FFF\0;
+    *padding: 2px 2px; 
+    padding: 2px 2px\9;
+    *background: #FFF;
+    background: #FFF\9;
     width: 208px;
-    width: 214px\0;
+    *width: 214px;
+    width: 214px\9;
     height:25px;
     font: 12px/25px "微软雅黑";
     color:#FFF;
@@ -216,8 +226,10 @@
     padding-left:1px;
 }
 #cndate div{
-    background: #67A1E2\0;
-    padding: 0 5px\0;
+    *background: #67A1E2;
+    background: #67A1E2\9;
+    *padding: 0 5px;
+    padding: 0 5px\9;
 }
 #cndate.dis div{
     color: #FFF;

@@ -8,7 +8,10 @@
 	font: 12px/25px "微软雅黑";
 	color:#31422A;
 }
-
+.text pre{
+	font: 14px/22px "微软雅黑";
+	color:#000;
+}
 .text label{
 	color:#FE275A;
 	padding:0 5px;
@@ -16,24 +19,31 @@
 	width:80px;
 }
 #minDate,#maxDate{
-	width:80px;
+	width:120px;
 	margin:0 5px;
 }
 </style>
 <link href="css/calendar.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" language="javascript" src="js/jquery-latest.min.js"></script>
 <script type="text/javascript" language="javascript" src="js/util.js"></script>
-<script type="text/javascript" language="javascript" src="js/calendar.js"></script>
+<script type="text/javascript" language="javascript" src="js/calendar.preview.js"></script>
 <script type="text/javascript" language="javascript">
 	var a = [];
     $(function(){
+		$('#anim').val($.calendar.IE6?"0":"1");
+		$('#minDate,#maxDate').val('')
+		$('#minDate').calendar({tip:false,maxDate:$('#maxDate'),count:1,showHoliday:false,format:$('#format').val()});
+		$('#maxDate').calendar({tip:false,minDate:$('#minDate'),count:1,showHoliday:false,format:$('#format').val()});
         E();
 		$("#apply").click(E);
-		$('#minDate').val('').calendar({tip:false,maxDate:$('#maxDate'),count:1,showHoliday:false});
-		$('#maxDate').val('').calendar({tip:false,maxDate:$('#minDate'),count:1,showHoliday:false});
+		$('#format').change(function(){
+			var f = $(this).val();
+			$('#minDate').val('').calendar({tip:false,maxDate:$('#maxDate'),count:1,showHoliday:false,format:f});
+			$('#maxDate').val('').calendar({tip:false,minDate:$('#minDate'),count:1,showHoliday:false,format:f});
+		})
     })
 	function E(){
-		var option = {};
+		var option = {anim:!!$('#anim').val()};
 		option.count = +$('#count').val();
 		option.debug = !!$('#debug').val();
 		option.showHoliday = !!$('#showHoliday').val();
@@ -46,10 +56,14 @@
 		option.maxDate = $('#maxDate').val();
 		option.defaultYear = $('#defaultYear').val();
 		option.defaultMonth = $('#defaultMonth').val();
+		option.format = $('#format').val();
+		option.change = $('[name="change"]:checked').val()?function(i,v){
+			alert(i.val()+'\n'+v);
+		}:0;
 		if(!a.length){
 			a = $("#id").val('').calendar(option);
 		}else{
-			a = a.destroy().val('').calendar(option);
+			a = a.val('').calendar(option);
 		}
 	}
 </script>
@@ -65,57 +79,70 @@
       <label>count</label>
       <select id='count'>
       <option value="1">1</option>
-      <option value="2">2</option>
+      <option value="2">2 (默认)</option>
       <option value="3">3</option>
       <option value="4">4</option>
       </select>
       日历的个数(整型) ,默认:2<br />
+      <label>format</label>
+      <select id='format'>
+      <option value="yyyy-MM-dd">yyyy-MM-dd (默认)</option>
+      <option value="yy-MM-dd">yy-MM-dd</option>
+      <option value="yyyy年MM月dd日">yyyy年MM月dd日</option>
+      </select>
+      日历的日期显示格式 本网页提供三种，可自定义,默认:yyyy-MM-dd<br />
       <label>debug</label>
       <select id='debug'>
-      <option value="">false</option>
+      <option value="">false (默认)</option>
       <option value="1">true</option>
       </select>
       调试模式[开发模式](bool型),默认:false<br />
+      <label>anim</label>
+      <select id='anim'>
+      <option value="">false (ie6下默认)</option>
+      <option value="1">true (非ie6下默认)</option>
+      </select>
+      是否开启动画(bool型)<br />
       <label>showHoliday</label>
       <select id='showHoliday'>
-      <option value="">false</option>
+      <option value="">false (默认)</option>
       <option value="1">true</option>
       </select>
       节目是否显示(bool型)  ,默认:true<br />
-      <label>minDate</label><input id='minDate'/>最小可选日期(字符串[格式：yyyy-MM-dd],Date对象,input等有value的控件)，默认无 <br />
+      <label>minDate</label><input id='minDate'/>最小可选日期(字符串[格式：详见format值],Date对象,input等有value的控件)，默认无 <br />
       <label>maxDate</label><input id='maxDate'/>最大可选日期，默认无 <br />
       <label>yearRange</label>
       <select id='yearRange'>
-      <option value="">false</option>
+      <option value="">false (默认)</option>
       <option value="1">true</option>
       </select>年份是否可调(bool型)  ,默认:false<br />
       <label>monthRange</label>
       <select id='monthRange'>
-      <option value="">false</option>
+      <option value="">false (默认)</option>
       <option value="1">true</option>
       </select>
       月份是否可调(bool型)  ,默认:false<br />
       <label>ignoreCanVisit</label>
       <select id='ignoreCanVisit'>
-      <option value="">false</option>
+      <option value="">false (默认)</option>
       <option value="1">true</option>
       </select>
       不可选的月份是否可访问，当count&gt;1或启用yearRange和monthRange时该参数无效(bool型) ,默认:false<br />
       <label>tip</label>
       <select id='tip'>
+      <option value="1">true (默认)</option>
       <option value="">false</option>
-      <option value="1">true</option>
       </select>
       农历提示框是否显示(bool型) ,默认:true<br />
       <label>float</label>
       <select id='float'>
-      <option value="">false</option>
+      <option value="">false (默认)</option>
       <option value="1">true</option>
       </select>
       农历提示框是否浮动(bool型) ,默认:false<br />
       <label>defaultYear</label>
       <select id='defaultYear'>
-      <option value="">无</option>
+      <option value="">无 (默认)</option>
       <option value="2008">2008</option>
       <option value="2009">2009</option>
 	  <option value="2010">2010</option>
@@ -125,7 +152,7 @@
       默认显示年份(整型)，默认无 <br />
       <label>defaultMonth</label>
       <select id='defaultMonth'>
-      <option value="">无</option>
+      <option value="">无 (默认)</option>
       <option value="1">1</option>
       <option value="2">2</option>
       <option value="3">3</option>
@@ -140,6 +167,8 @@
       <option value="12">12</option>
       </select>
       默认显示月份(整型)，默认无 <br />
+      <label>change</label>
+      <input type="radio" name="change" value="" checked="checked"/>无 (默认) <input type="radio" name="change" value="1"/>function(i,v){alert(i.val()+'\n'+v);}
     </div>
 </body>
 </html>
